@@ -1,0 +1,111 @@
+body {
+    background: url("../img/login.jpg") no-repeat center center fixed;
+    background-size: cover;
+    font-size: 16px;
+    font-family: 'Lato', sans-serif;
+    font-weight: 300;
+    margin: 0;
+
+}
+h2 {
+    text-transform: uppercase;
+    color: white;
+    font-weight: 400;
+    letter-spacing: 1px;
+    font-size: 1.4em;
+    line-height: 2.8em;
+}
+
+a {
+    text-decoration: none;
+    color: #ccc;
+}
+p{
+    color: #847c7c;
+}
+a:hover {
+    color: indianred;
+}
+
+.container {
+    margin: 0;
+    
+}
+
+.login-box {
+    background-color:rgba(5, 7, 29, 0.8);
+    max-width: 340px;
+    margin: 0 auto;
+    position: relative;
+    top: 80px;
+    padding-bottom: 30px;
+   
+    box-shadow: 0 5px 50px rgba(0,0,0,0.4);
+    text-align: center;
+
+}
+
+.login-box .box-header {
+    background-color: rgba(117, 25, 25, 0.47);
+    margin-top: 0;
+   
+    opacity: 0.9;
+}
+
+.login-box label {
+    font-size: 1em;
+    color: #ccc;
+    text-transform: uppercase;
+    line-height: 2em;
+    font-weight: bold;
+}
+
+.login-box input {
+    background-color: rgba(30,30,80,0.6);
+    margin-bottom: 20px;
+    padding: 8px;
+    border: 1px solid rgb(47, 61, 111);
+    border-radius: 2px;
+    font-size: .9em;
+    color: indianred;
+}
+
+.login-box input:focus {
+    outline: none;
+    border-color: #ccc;
+    transition: 0.5s;
+    color: #ccc;
+}
+.login-box i{
+    color: #ccc;
+}
+
+.login-box button {
+    margin-top: 0px;
+    border: 0;
+    border-radius: 2px;
+    color: white;
+    padding: 10px;
+    text-transform: uppercase;
+    font-weight: 400;
+    font-size: 0.7em;
+    letter-spacing: 1px;
+    background-color: rgba(113, 22, 22, 0.75);
+    cursor:pointer;
+    outline: none;
+}
+
+.login-box button:hover {
+    opacity: 0.7;
+    transition: 0.5s;
+}
+
+.login-box button:hover {
+    opacity: 0.7;
+    transition: 0.5s;
+}
+
+.selected {
+    color: #11310a!important;
+    transition: 0.5s;
+}
