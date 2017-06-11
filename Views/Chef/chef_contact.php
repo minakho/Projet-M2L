@@ -1,6 +1,6 @@
 <?php
 session_start();
-$bdd = new PDO('mysql:host=localhost;dbname=m2l;charset=utf8', 'root', '');
+require_once('../../models/connexionbdd.php');
 
 if(isset($_GET['id_s']) AND $_GET['id_s'] > 0)
 {
@@ -43,7 +43,7 @@ if(isset($_GET['id_s']) AND $_GET['id_s'] > 0)
                             if(isset($_SESSION['id_s']) AND $userinfo['id_s'] == $_SESSION['id_s'])
                             {
                             ?>
-                            <li> <a href="../controllers/deconnexion.php"> se deconnecter</a></li>       
+                            <li> <a href="../../deconnexion.php"> se deconnecter</a></li>       
                             <?php  
                             }
                             ?>                       

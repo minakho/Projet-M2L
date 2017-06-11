@@ -24,10 +24,12 @@ require_once('controllers/connexion.php');
 			<label for="">Mot de passe</label>
 			<br/>
 			<input type="password" name="mdpp" placeholder="Mot de passe"/>
-			<br/><br>
+			<br>
+			
 			<button type="submit" name="formconnexion" value="Se connecter">Valider</button>
 			 </form><br>
-          <a href="Views/contactmail.php">mot de passe oublié?</a>
+         
+          <a href="Views/mdp_oublie.php">mot de passe oublié?</a>
            <br>
             <?php
             if(isset($erreur))

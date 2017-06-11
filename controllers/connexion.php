@@ -1,7 +1,8 @@
 <?php
 session_start();
+$bdd = new PDO('mysql:host=localhost;dbname=m2l;charset=utf8', 'root', '');
 
-$bdd = new PDO('mysql:host=127.0.0.1;dbname=m2l', 'root','');
+include_once('cookie.php');
 
 if(isset($_POST['formconnexion']))
 {
@@ -17,19 +18,27 @@ if(isset($_POST['formconnexion']))
 
         if($userexist == 1)
         {
+            if(isset($_POST['rememberme'])){
+                setcookie('user_id',$identifiantt,time()+365*24*3600,null,null,false,true);
+                setcookie('password',$mdpp,time()+365*24*3600,null,null,false,true);
+                
+            }
+           
             $userinfo = $requser->fetch();
             $_SESSION['id_s'] = $userinfo['id_s'];
             $_SESSION['identifiant'] = $userinfo['identifiant'];
             $_SESSION['mot_de_passe'] = $userinfo['mot_de_passe'];
             $_SESSION['chef'] = $userinfo['chef'];
+            $_SESSION['admin'] = $userinfo['admin'];
             //rediriger vers le profil de la personne
-            header('Location: Views/m2l.php?id_s='.$_SESSION['id_s']);
+            header('Location: controllers/date_update.php?id_s='.$_SESSION['id_s']);
 
-            if($_SESSION['chef'] == 1){
-                $userinfo = $requser->fetch();
-                header('Location: Views/Chef/chef_index.php?id_s='.$_SESSION['id_s']);
+            
+            if($_SESSION['admin'] == 1){
+                header('Location: Views/Admin/admin_index.php?id_s='.$_SESSION['id_s']);
             }
         }
+        
         else
         {
             $erreur = "Mauvais identifiant ou mot de passe !";

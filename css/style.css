@@ -104,6 +104,43 @@ img{
     -o-transition: all 0.5s; /* 10.5 < Op < 12.1 */
     transition: all 0.5s; /* IE 10, Ch 26+, Fx 16+, Op 12*/
 }
+.check{
+    color: green;
+}
+.cross{
+    color: red;
+}
+.single_sidebar .search{
+    float: right;
+    margin-top: -75px;
+}
+.search .btn-search{
+  border: 0 none;
+  background: transparent;
+  box-shadow: none;
+  display:block;
+    margin-left: 150px;
+    margin-top: -27px;
+    color: #06d0d8;
+}
+   
+
+.form-control-feedback {
+    position: absolute;
+    top: -5px;
+    right: 15px;
+    z-index: 2;
+    display: block;
+    width: 34px;
+    height: 34px;
+    line-height: 34px;
+    text-align: center;
+    pointer-events: none;
+}
+input[type=search]{
+    border-radius: 0px;
+    border: solid 1px #06d0d8;
+}
 
 
 /*--------------------*/
@@ -225,7 +262,46 @@ img{
 .dropdown-menu > li > a:hover,.dropdown-menu > li > a:focus{
     border-radius: 4px; 
 }
-
+#howWorks{
+  float: left;
+  display: inline;
+  width: 100%;
+}
+.howworks_area {
+  display: inline;
+  float: left;
+  padding: 60px 0 105px;
+  width: 100%;
+}
+.client_title{
+  display: block;
+  float: left;
+  width: 100%;
+  text-align: center;
+  position: relative;
+    padding-bottom: 50px;
+}
+.client_title hr{
+  position: absolute;
+  left: 0;
+  right: 0;
+  width: 100%;
+  height: 1px;
+  background-color: #d8d8d8;
+}
+.client_title > h2 {
+  background: none repeat scroll 0 0 #f0f0f0;
+  display: inline-block;
+  margin-top: 7px;
+  padding: 0 20px;
+  position: relative;
+  z-index: 5;
+  text-transform: uppercase;
+  font-weight: bold;
+}
+.client_title > h2 span{
+  font-weight: normal;
+}
 
 .team_title {
     display: block;
@@ -556,6 +632,13 @@ img{
     .social_nav li a {margin-right: 8px;}
     .pfeatured_nav li {font-size: 15px;padding: 10px 0;}
     .page_left {width: 100%;}
+/*
+    .single_sidebar .search{
+        margin-top: 0px;
+        padding-bottom: 5px;
+    }
+*/
+
 
 
 }

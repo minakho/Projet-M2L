@@ -1,14 +1,15 @@
 <?php
 session_start();
-include('../models/connexionbdd.php');
+require_once('../models/connexionbdd.php');
 
-if(isset($_GET['id_s']) AND $_GET['id_s'] > 0)
+
+if(isset($_SESSION['id_s']))
 {
-    $getid_s = intval($_GET['id_s']);
-    $requser = $bdd->prepare('SELECT * FROM salarie WHERE id_s = ?');
-    $requser->execute(array($getid_s));
+    $requser = $bdd->prepare('SELECT * FROM salarie WHERE id_s = :id_s');
+    $requser->bindValue(":id_s",$_SESSION['id_s']);
+    $requser->execute();
     $userinfo = $requser->fetch();
-    if($_SESSION['id_s'] == $_GET['id_s']){
+    
 ?>
 
 <?php include('header.php'); ?>
@@ -24,11 +25,13 @@ if(isset($_GET['id_s']) AND $_GET['id_s'] > 0)
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a class="navbar-brand" href="m2l.php">M2<span>L</span></a>
+                    <a class="navbar-brand" href="m2l.php">M2<span>L</span></a><span>Bonjour <?php echo $_SESSION['identifiant']; ?></span>
+                    
                     <!-- <a class="navbar-brand" href="index.html"><img src="img/logo.png" alt="logo"></a> -->
                 </div>
                 <div id="navbar" class="navbar-collapse collapse navbar_area">          
                     <ul class="nav navbar-nav navbar-right custom_nav">
+                       
                         <li ><a href="m2l.php?id_s=<?php echo $_SESSION['id_s']; ?>">Accueil</a></li>
                         <li class="dropdown active">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Formations <span class="caret"></span></a>
@@ -43,7 +46,7 @@ if(isset($_GET['id_s']) AND $_GET['id_s'] > 0)
                             if(isset($_SESSION['id_s']) AND $userinfo['id_s'] == $_SESSION['id_s'])
                             {
                             ?>
-                            <li><a href="../controllers/deconnexion.php"> se deconnecter</a></li>       
+                            <li><a href="../deconnexion.php"> se deconnecter</a></li>       
                             <?php
                             }
                             ?>
@@ -69,9 +72,17 @@ if(isset($_GET['id_s']) AND $_GET['id_s'] > 0)
                             </div>
                             <div class="col-lg-12 col-md-12 col-sm-12">
                                 <div class="blog_sidebar">
+                                   
                                     <!-- Start single side bar -->
                                     <div class="single_sidebar">
                                         <h2>Choisissez une formation</h2><br>
+                                        
+                                        <div class="search">
+                                            <form action="liste_formation.php" method="post"><input type="search" class="form-control" name="search" placeholder="rechercher">
+                                            <button type="submit" class="btn-search" name="rechercher"><i class="fa fa-search" aria-hidden="true"></i></button>
+                                            </form>
+                                        </div>
+                                        
                                         <ul class="small_catg similar_nav">
                                            
                                             <li>
@@ -88,25 +99,51 @@ if(isset($_GET['id_s']) AND $_GET['id_s'] > 0)
                                                                     <th>Action</th>
                                                                 </tr>
                                                             </thead>
-                                                            <?php
-                                                            $reponse = $bdd->query('SELECT * FROM formation');
-                                                            while ($donnees = $reponse->fetch())
-                                                            {
-                                                            ?>
-                                                            <tbody>
-                                                                <tr>
-                                                                    <td><?php echo $donnees['titre']; ?></td>
-                                                                    <td><?php echo $donnees['cout']; ?></td>
-                                                                    <td><?php echo $donnees['date_debut']; ?></td>
-                                                                    <td><?php echo $donnees['nb_place']; ?></td>
-                                                                    <td><?php echo $donnees['contenu']; ?></td>
-                                                                    <td><a href=""><button class="bouton">s'abonner</button></a></td>
-                                                                </tr>
-                                                                <?php 
-                                                            }
-                                                            $reponse->closeCursor();
-                                                                ?>
+                                                                <?php
+                                                            $reponse = $bdd->query("SELECT * FROM formation WHERE etat_f ='Disponible'");
+                                                    if(isset($_POST['rechercher']))
+                                                    {
+                                                        $sql1="SELECT id_f, titre, cout, date_debut, nb_place, contenu FROM formation WHERE etat_f ='Disponible' AND `titre` LIKE :search";
+                                                        $req1= $bdd->prepare($sql1);
+                                                        $req1->bindvalue(":search",'%'.$_POST['search'].'%');
+                                                        $req1->execute();
+                                                        
+                                                         while ($row1 = $req1->fetch())
+                                                        { ?>
+                                                    <tr>
+                                                        <td><?php echo $row1['titre']; ?></td>
+                                                        <td><?php echo $row1['cout']; ?></td>
+                                                        <td><?php echo $row1['date_debut']; ?></td>
+                                                        <td><?php echo $row1['nb_place']; ?></td>
+                                                        <td><?php echo $row1['contenu']; ?></td>
+                                                        <td><a href="../controllers/ajout_formation.php?id_f=<?php echo $row1['id_f']; ?>"><button type="submit" class="bouton" name="abonner">s'abonner</button></a></td>
+                                                    </tr>
+
+                                                    <?php
+                                                    }
+
+                                                    }
+                                                    else{
+                                                    
+                                                     while ($row1 = $reponse->fetch())
+                                                        { ?>
+                                                    <tr>
+                                                        <td><?php echo $row1['titre']; ?></td>
+                                                        <td><?php echo $row1['cout']; ?></td>
+                                                        <td><?php echo $row1['date_debut']; ?></td>
+                                                        <td><?php echo $row1['nb_place']; ?></td>
+                                                        <td><?php echo $row1['contenu']; ?></td>
+                                                        <td><a href="../controllers/ajout_formation.php?id_f=<?php echo $row1['id_f']; ?>"><button type="submit" class="bouton" name="abonner">s'abonner</button></a></td>
+                                                        
+                                                    </tr>
+
+                                                    <?php
+                                                    }
+                                                    }
+
+                                                    ?>
                                                             </tbody>
+                                                            
                                                         </table>
                                                     </div>
                                                 </div>
@@ -123,7 +160,7 @@ if(isset($_GET['id_s']) AND $_GET['id_s'] > 0)
 
 <?php include('footer.php'); ?>
 <?php
-    }
+    
 }
 else
 {
