@@ -2,13 +2,13 @@
 session_start();
 require_once('../../models/connexionbdd.php');
 
-if(isset($_GET['id_s']) AND $_GET['id_s'] > 0)
+if(isset($_SESSION['id_s']))
 {
-    $getid_s = intval($_GET['id_s']);
-    $requser = $bdd->prepare('SELECT * FROM salarie WHERE id_s = ?');
-    $requser->execute(array($getid_s));
+    $requser = $bdd->prepare('SELECT * FROM salarie WHERE id_s = :id_s');
+    $requser->bindValue(":id_s",$_SESSION['id_s']);
+    $requser->execute();
     $userinfo = $requser->fetch();
-    if($_SESSION['id_s'] == $_GET['id_s']){
+    
 ?>
 
 <?php include ('chef_header.php') ?>
@@ -71,6 +71,12 @@ if(isset($_GET['id_s']) AND $_GET['id_s'] > 0)
                                     <!-- Start single side bar -->
                                     <div class="single_sidebar">
                                         <h2>S'abonner aux formations</h2><br>
+                                        <div class="search">
+                                            <form action="chef_formation.php" method="post"><input type="search" class="form-control" name="search" placeholder="rechercher">
+                                            <button type="submit" class="btn-search" name="rechercher"><i class="fa fa-search" aria-hidden="true"></i></button>
+                                            </form>
+                                        </div>
+                                        
                                         <ul class="small_catg similar_nav">
                                            
                                             <li>
@@ -84,27 +90,57 @@ if(isset($_GET['id_s']) AND $_GET['id_s'] > 0)
                                                                     <th>Date début</th>
                                                                     <th>nombre places</th>
                                                                     <th>Contenu</th>
+                                                                    <th>Détails</th>
                                                                     <th>Action</th>
                                                                 </tr>
                                                             </thead>
-                                                            <?php
-                                                            $reponse = $bdd->query('SELECT * FROM formation');
-                                                            while ($donnees = $reponse->fetch())
-                                                            {
-                                                            ?>
-                                                            <tbody>
-                                                                <tr>
-                                                                    <td><?php echo $donnees['titre']; ?></td>
-                                                                    <td><?php echo $donnees['cout']; ?></td>
-                                                                    <td><?php echo $donnees['date_debut']; ?></td>
-                                                                    <td><?php echo $donnees['nb_place']; ?></td>
-                                                                    <td><?php echo $donnees['contenu']; ?></td>
-                                                                    <td><button class="bouton">s'abonner</button></td>
-                                                                </tr>
-                                                                <?php 
-                                                            }
-                                                            $reponse->closeCursor();
-                                                                ?>
+                                                             <?php
+                                                            $reponse = $bdd->query("SELECT * FROM formation WHERE etat_f ='Disponible'");
+                                                    if(isset($_POST['rechercher']))
+                                                    {
+                                                        $sql1="SELECT id_f, titre, cout, date_debut, nb_place, contenu FROM formation WHERE etat_f ='Disponible' AND `titre` LIKE :search";
+                                                        $req1= $bdd->prepare($sql1);
+                                                        $req1->bindvalue(":search",'%'.$_POST['search'].'%');
+                                                        $req1->execute();
+                                                        
+                                                         while ($row1 = $req1->fetch())
+                                                        { ?>
+                                                    <tr>
+                                                        <td><?php echo $row1['titre']; ?></td>
+                                                        <td><?php echo $row1['cout']; ?></td>
+                                                        <td><?php echo $row1['date_debut']; ?></td>
+                                                        <td><?php echo $row1['nb_place']; ?></td>
+                                                        <td><?php echo $row1['contenu']; ?></td>
+                                                        <td><a href="../detail_formation.php?id_f=<?php echo $row1['id_f']; ?>" class="read_more">Voir</a></td>
+                                                        <td><a href="../../controllers/ajout_formation_chef.php?id_f=<?php echo $row1['id_f']; ?>"><button type="submit" class="bouton" name="abonner">s'abonner</button></a></td>
+                                                    </tr>
+                                                    
+                                                     <a href="chef_formation.php?id_s=<?php echo $_SESSION['id_s']; ?>"><h4>Retour à la liste</h4></a><br>
+
+                                                    <?php
+                                                    }
+
+                                                    }
+                                                    else{
+                                                    
+                                                     while ($row1 = $reponse->fetch())
+                                                        { ?>
+                                                    <tr>
+                                                        <td><?php echo $row1['titre']; ?></td>
+                                                        <td><?php echo $row1['cout']; ?></td>
+                                                        <td><?php echo $row1['date_debut']; ?></td>
+                                                        <td><?php echo $row1['nb_place']; ?></td>
+                                                        <td><?php echo $row1['contenu']; ?></td>
+                                                        <td><a href="../detail_formation.php?id_f=<?php echo $row1['id_f']; ?>" class="read_more">Voir</a></td>
+                                                        <td><a href="../../controllers/ajout_formation_chef.php?id_f=<?php echo $row1['id_f']; ?>"><button type="submit" class="bouton" name="abonner">s'abonner</button></a></td>
+                                                        
+                                                    </tr>
+
+                                                    <?php
+                                                    }
+                                                    }
+
+                                                    ?>
                                                             </tbody>
                                                         </table>
                                                     </div>
@@ -122,7 +158,7 @@ if(isset($_GET['id_s']) AND $_GET['id_s'] > 0)
 
 <?php include ('chef_footer.php'); ?>
 <?php
-    }
+    
 }
 else
 {

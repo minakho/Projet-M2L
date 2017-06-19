@@ -11,11 +11,19 @@ require_once('controllers/connexion.php');
     </head>
     <body>
         <div class="container">
+        
+        <h1>M2L</h1>
 		
 		<div class="login-box ">
 			<div class="box-header">
 				<h2>Connexion</h2>
 			</div>
+			 <?php
+            if(isset($erreur))
+            {
+                echo '<font color="red">'.$erreur."</font>";
+            }
+            ?>
 			<form method="POST" action="">
 			<label for="">Identifiant</label>
 			<br/>
@@ -24,19 +32,15 @@ require_once('controllers/connexion.php');
 			<label for="">Mot de passe</label>
 			<br/>
 			<input type="password" name="mdpp" placeholder="Mot de passe"/>
-			<br>
+			<br/>
+<!--			<input type="checkbox" name="rememberme" id="remember"/><label for="remember">Se souvenir de moi</label><br>-->
 			
 			<button type="submit" name="formconnexion" value="Se connecter">Valider</button>
 			 </form><br>
          
           <a href="Views/mdp_oublie.php">mot de passe oublié?</a>
            <br>
-            <?php
-            if(isset($erreur))
-            {
-                echo '<font color="red">'.$erreur."</font>";
-            }
-            ?>
+           
 		</div>
 	</div>
     </body>

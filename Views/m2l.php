@@ -28,6 +28,7 @@ if(isset($_SESSION['id_s']))
     <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
         <div class="container">
             <div class="navbar-header">
+               <div class="welcome">Bonjour <span><?php echo $_SESSION['identifiant']; ?></span></div>
                 <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
                     <span class="sr-only">Toggle navigation</span>
                     <span class="icon-bar"></span>
@@ -66,20 +67,50 @@ if(isset($_SESSION['id_s']))
     <section id="imgbanner">  
         <h2>Accueil</h2>     
     </section>
-    <!-- start How it works area -->
-    <section id="howWorks">
+  
+   <section id="service">
+    <div class="container">
+      <div class="col-lg-12 col-md-12 col-sm-12">
+        <div class="service_area">
+          <div class="service_title">
+            <hr>
+            <h2>Formations sportives </h2>
+            <p>Réservez des formations sportives.</p>
+          </div>
+          <ul class="service_nav wow flipInX">
+            <li>
+              <a class="service_icon" href="#"><i class="fa fa-list-alt" aria-hidden="true"></i></a>
+              <h2>Réservation de formation</h2>
+              <p>La Maison des Ligues vous propose des formations sportives. Celles-ci sont accessibles vers <a href="liste_formation.php?id_s=<?php echo $_SESSION['id_s']; ?>" style="color:#06d0d8;">la liste de formations</a>.</p>
+              
+            </li>
+           <li>
+              <a class="service_icon" href="#"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
+              <h2>Historique de formation</h2>
+              <p>Vous pouvez accéder à l'historique des formations qui vous ont été validées par votre chef d'équipe. L'historique est accessible vers <a href="historique.php?id_s=<?php echo $_SESSION['id_s']; ?>" style="color:#06d0d8;"> l'historique des formations</a></p>
+              
+            </li>
+           
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+    
+    <section id="featuredBlog">
         <div class="container">
             <div class="row">
                 <div class="col-lg-12 col-md-12 col-sm-12">
-                    <div class="howworks_area">
-                        <div class="client_title">
+                    <div class="featuredBlog_area">
+                        <div class="team_title">
                             <hr>
-                            <h2><span>Mes formations</span></h2>
+                            <h2>Mes formations</h2><br><br>
                         </div>
-                        <div class="row">
-                            <div class="col-lg-12 col-md-12 col-sm-12">
+                        <div class="col-lg-12 col-md-12 col-sm-12">
+                            <div class="blog_sidebar">
                                 <!-- Start single side bar -->
-                                <div class="single_sidebar"><br>
+                                <div class="single_sidebar">
+                                    <h2>Formations validées </h2><br>
                                     <ul class="small_catg similar_nav">
                                         <li>
                                             <div >
@@ -121,6 +152,10 @@ if(isset($_SESSION['id_s']))
             </div>
         </div>
     </section>
+     
+      <!-- start Our Team area -->
+ 
+  <!-- End Our Team area -->
     <!-- End featured blog area -->
     <?php include('footer.php'); ?>
     <?php

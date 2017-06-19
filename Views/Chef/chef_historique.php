@@ -2,6 +2,11 @@
 session_start();
 require_once('../../models/connexionbdd.php');
 
+$sql1 = "SELECT f.`id_f`,`titre`,`cout`,`date_debut`,`nb_place`,`contenu`,`Etat` FROM `etat_formation`e,`formation`f WHERE e.id_f = f.id_f AND `Etat`= 'Validée' AND `id_s`= :id_s";
+$etat1 = $bdd->prepare($sql1);
+$etat1->bindValue(":id_s",$_SESSION['id_s']);
+$etat1->execute();
+
 if(isset($_GET['id_s']) AND $_GET['id_s'] > 0)
 {
     $getid_s = intval($_GET['id_s']);
@@ -70,16 +75,46 @@ if(isset($_GET['id_s']) AND $_GET['id_s'] > 0)
                                     <!-- Start single side bar -->
                                     <div class="single_sidebar">
                                         <h2>Historique de formation</h2><br>
-                                        <ul class="small_catg similar_nav">
-                                           
-                                            <li>
+                                        <h3>Formations Validées</h3>
+                                    <ul class="small_catg similar_nav">
+                                        <li>
+                                            <div >
                                                 <div >
-                                                    <div >
-                                                        
-                                                    </div>
+                                                    <table class="table table-condensed">
+                                                       
+                                                            <tr>
+                                                                <th>Etat</th>
+                                                                <th>Titre de formation</th>
+                                                                <th>cout</th>
+                                                                <th>date début</th>
+                                                                <th>nombre de place</th>
+                                                                <th>Contenu</th>
+                                                                <th>Action</th>
+
+                                                            </tr>
+                                                            <?php while ($row1 = $etat1->fetch())
+                                                            { ?>
+                                                            <tr>
+                                                                <td><?php echo '<font color="green"><strong>'.$row1['Etat'];'</strong></font>' ?></td>
+                                                                <td><?php echo $row1['titre']; ?></td>
+                                                                <td><?php echo $row1['cout']; ?></td>
+                                                                <td><?php echo $row1['date_debut']; ?></td>
+                                                                <td><?php echo $row1['nb_place']; ?></td>
+                                                                <td><?php echo $row1['contenu']; ?></td>
+                                                               <td><a href="../../controllers/form.php?id_f=<?php echo $row1['id_f'];?>" target="_blank"><button type="submit" class="bouton" name="abonner">Imprimer</button></a></td>
+                                
+                                                            </tr>
+                                                            <?php
+                                                            } 
+
+                                                            ?>
+                                                    
+
+                                                    </table>
                                                 </div>
-                                            </li>                    
-                                        </ul>
+                                            </div>
+                                        </li>                    
+                                    </ul>
                                     </div>
                                 </div>
                             </div>

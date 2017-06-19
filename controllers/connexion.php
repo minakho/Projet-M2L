@@ -1,6 +1,6 @@
 <?php
 session_start();
-$bdd = new PDO('mysql:host=localhost;dbname=m2l;charset=utf8', 'root', '');
+$bdd = new PDO('mysql:host=mysql-smichael.alwaysdata.net;dbname=smichael_sinakhobdd;charset=utf8', 'smichael', 'Mimimic95');
 
 include_once('cookie.php');
 

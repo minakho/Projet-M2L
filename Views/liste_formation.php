@@ -19,18 +19,21 @@ if(isset($_SESSION['id_s']))
         <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
             <div class="container">
                 <div class="navbar-header">
+                   <div class="welcome">Bonjour <span><?php echo $_SESSION['identifiant']; ?></span></div>
                     <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
                         <span class="sr-only">Toggle navigation</span>
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a class="navbar-brand" href="m2l.php">M2<span>L</span></a><span>Bonjour <?php echo $_SESSION['identifiant']; ?></span>
+                    <a class="navbar-brand" href="m2l.php">M2<span>L</span></a>
                     
                     <!-- <a class="navbar-brand" href="index.html"><img src="img/logo.png" alt="logo"></a> -->
                 </div>
-                <div id="navbar" class="navbar-collapse collapse navbar_area">          
+                <div id="navbar" class="navbar-collapse collapse navbar_area">
+                             
                     <ul class="nav navbar-nav navbar-right custom_nav">
+                      
                        
                         <li ><a href="m2l.php?id_s=<?php echo $_SESSION['id_s']; ?>">Accueil</a></li>
                         <li class="dropdown active">
@@ -78,10 +81,11 @@ if(isset($_SESSION['id_s']))
                                         <h2>Choisissez une formation</h2><br>
                                         
                                         <div class="search">
-                                            <form action="liste_formation.php" method="post"><input type="search" class="form-control" name="search" placeholder="rechercher">
+                                            <form action="liste_formation.php" method="post"><input type="search" class="form-control" id="recherche" name="search" placeholder="rechercher">
                                             <button type="submit" class="btn-search" name="rechercher"><i class="fa fa-search" aria-hidden="true"></i></button>
                                             </form>
                                         </div>
+<!--                                        <div class="resultat" id="resultat"></div>-->
                                         
                                         <ul class="small_catg similar_nav">
                                            
@@ -96,6 +100,7 @@ if(isset($_SESSION['id_s']))
                                                                     <th>Date début</th>
                                                                     <th>nombre places</th>
                                                                     <th>Contenu</th>
+                                                                    <th>Détails</th>
                                                                     <th>Action</th>
                                                                 </tr>
                                                             </thead>
@@ -108,18 +113,26 @@ if(isset($_SESSION['id_s']))
                                                         $req1->bindvalue(":search",'%'.$_POST['search'].'%');
                                                         $req1->execute();
                                                         
+                                                        ?>
+                                                         <a href="liste_formation.php?id_s=<?php echo $_SESSION['id_s']; ?>"><h4>Retour à la liste</h4></a><br>
+                                                        <?php
                                                          while ($row1 = $req1->fetch())
                                                         { ?>
+                                                       
                                                     <tr>
                                                         <td><?php echo $row1['titre']; ?></td>
                                                         <td><?php echo $row1['cout']; ?></td>
                                                         <td><?php echo $row1['date_debut']; ?></td>
                                                         <td><?php echo $row1['nb_place']; ?></td>
                                                         <td><?php echo $row1['contenu']; ?></td>
+                                                        <td><a href="detail_formation.php?id_f=<?php echo $row1['id_f']; ?>" class="read_more">Voir</a></td>
                                                         <td><a href="../controllers/ajout_formation.php?id_f=<?php echo $row1['id_f']; ?>"><button type="submit" class="bouton" name="abonner">s'abonner</button></a></td>
                                                     </tr>
+                                                       
+                                                        
 
                                                     <?php
+                                                         
                                                     }
 
                                                     }
@@ -133,7 +146,9 @@ if(isset($_SESSION['id_s']))
                                                         <td><?php echo $row1['date_debut']; ?></td>
                                                         <td><?php echo $row1['nb_place']; ?></td>
                                                         <td><?php echo $row1['contenu']; ?></td>
+                                                        <td><a href="detail_formation.php?id_f=<?php echo $row1['id_f']; ?>" class="read_more">Voir</a></td>
                                                         <td><a href="../controllers/ajout_formation.php?id_f=<?php echo $row1['id_f']; ?>"><button type="submit" class="bouton" name="abonner">s'abonner</button></a></td>
+                                                        
                                                         
                                                     </tr>
 

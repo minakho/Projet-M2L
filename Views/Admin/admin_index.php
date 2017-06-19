@@ -4,17 +4,6 @@ require_once('../../models/connexionbdd.php');
 include('../../controllers/addformation.php');
 include('../../controllers/addsalarie.php');
 
-$reponse = $bdd->query("SELECT COUNT(`id_s`) AS inscrit_max FROM salarie");
-$donnees = $reponse->fetch();
-
-$reponse1 = $bdd->query("SELECT COUNT(`id_s`) AS salarie_max FROM salarie WHERE chef = 0 AND admin = 0");
-$donnees1 = $reponse1->fetch();
-
-$reponse2 = $bdd->query("SELECT COUNT(`id_s`) AS chef_max FROM salarie WHERE chef = 1");
-$donnees2 = $reponse2->fetch();
-
-$reponse3 = $bdd->query("SELECT COUNT(`id_f`) AS form_max FROM formation");
-$donnees3 = $reponse3->fetch();
 
 if(isset($_SESSION['id_s']))
 {
@@ -124,47 +113,6 @@ if(isset($_SESSION['id_s']))
 
                 <!-- Main content -->
                 <section class="content">
-
-                    <div class="row" style="margin-bottom:5px;">
-
-
-                        <div class="col-md-3">
-                            <div class="sm-st clearfix">
-                                <span class="sm-st-icon st-violet"><i class="fa fa-group"></i></span>
-                                <div class="sm-st-info">
-                                    <span><?php echo $donnees['inscrit_max']; ?></span>
-                                    <strong>Total Inscrits</strong>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="sm-st clearfix">
-                                <span class="sm-st-icon st-blue"><i class="fa fa-user"></i></span>
-                                <div class="sm-st-info">
-                                    <span><?php echo $donnees1['salarie_max']; ?></span>
-                                    <strong>Total salariés</strong>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="sm-st clearfix">
-                                <span class="sm-st-icon st-red"><i class="fa fa-user"></i></span>
-                                <div class="sm-st-info">
-                                    <span><?php echo $donnees2['chef_max']; ?></span>
-                                    <strong>Total chefs</strong>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="sm-st clearfix">
-                                <span class="sm-st-icon st-green"><i class="fa fa-paperclip"></i></span>
-                                <div class="sm-st-info">
-                                    <span><?php echo $donnees3['form_max']; ?></span>
-                                    <strong>Total formations</strong>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                     <div class="col-lg-12">
                         <!-- Main row -->
                         <div class="row">
@@ -174,7 +122,7 @@ if(isset($_SESSION['id_s']))
                                     <ul class="nav nav-tabs">
                                         <li class="active">
                                             <a data-toggle="tab" href="#home-2">
-                                                utilisateurs
+                                                utilisateurs/formations
                                             </a>
                                         </li>
                                         <li >
@@ -197,7 +145,7 @@ if(isset($_SESSION['id_s']))
                                             <div class="col-md-12">
                                                 <section class="panel">
                                                     <header class="panel-heading">
-                                                        Tableau utilisateurs
+                                                        Tableau des utilisateurs
                                                     </header>
                                                     <div class="panel-body table-responsive">
                                                         <table class="table table-hover">
@@ -209,6 +157,7 @@ if(isset($_SESSION['id_s']))
                                                                     <th>Prenom</th>
                                                                     <th>Mail</th>
                                                                     <th>Titre</th> 
+                                                                    <th>Action</th> 
                                                                 </tr>
                                                             </thead>
                                                             <?php
@@ -237,6 +186,52 @@ if(isset($_SESSION['id_s']))
                                                                     <td><?php echo $donnees['prenom']; ?></td>
                                                                     <td><?php echo $donnees['Email']; ?></td>
                                                                     <td><?php echo $titre; ?></td>
+                                                                    <td><a href="../../controllers/delete_user.php?deleteU=<?= $donnees['id_s']; ?>"><i class="fa fa-trash" aria-hidden="true"></i></a></td>
+                                                                    
+                                                                </tr>
+                                                                <?php 
+                                                            }
+                                                            $reponse->closeCursor();
+                                                            ?>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </section>
+                                                
+                                                <section class="panel">
+                                                    <header class="panel-heading">
+                                                        Tableau des formations
+                                                    </header>
+                                                    <div class="panel-body table-responsive">
+                                                        <table class="table table-hover">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th>#id</th>
+                                                                    <th>Titre</th>
+                                                                    <th>Cout</th>
+                                                                    <th>Date de début</th>
+                                                                    <th>Nombre de place</th>
+                                                                    <th>Etat</th>
+                                                                    
+<!--                                                                    <th>Action</th>-->
+                                                                </tr>
+                                                            </thead>
+                                                            <?php
+                                                            $reponse = $bdd->query('SELECT * FROM formation');
+
+                                                            while ($donnees = $reponse->fetch())
+                                                            {
+                                                            ?>
+                                                            <tbody>
+                                                                <tr>
+                                                                    <td><?php echo $donnees['id_f']; ?></td>
+                                                                    <td><?php echo $donnees['titre']; ?></td>
+                                                                    <td><?php echo $donnees['cout']; ?></td>
+                                                                    <td><?php echo $donnees['date_debut']; ?></td>
+                                                                    <td><?php echo $donnees['nb_place']; ?></td>
+                                                                    <td><?php echo $donnees['etat_f']; ?></td>
+<!--                                                                    <td><a href="../../controllers/delete_formation.php?deleteF=<?= $donnees['id_f']; ?>"><i class="fa fa-trash" aria-hidden="true"></i></a></td>-->
+                                                
                                                                     <!--                                                                <td><span class="label label-danger"></span></td>-->
                                                                 </tr>
                                                                 <?php 
@@ -247,8 +242,11 @@ if(isset($_SESSION['id_s']))
                                                         </table>
                                                     </div>
                                                 </section>
-                                            </div><!--end col-6 -->
+                                            </div><!--end col-12 -->
                                         </div>
+                                        
+                                        
+                                        
                                         
                                         <!-- UTILISATEURS -->
                                         <div id="about-2" class="tab-pane ">
@@ -261,23 +259,23 @@ if(isset($_SESSION['id_s']))
                                                         <form role="form" method="post" action="" >
                                                             <div class="form-group">
                                                                 <label for="exampleInputEmail1">Nom</label>
-                                                                <input type="text" class="form-control" placeholder="Nom" name="nom">
+                                                                <input type="text" class="form-control" required placeholder="Nom" name="nom">
                                                             </div>
                                                             <div class="form-group">
                                                                 <label for="exampleInputPassword1">Prénom</label>
-                                                                <input type="text" class="form-control" placeholder="Prénom" name="prenom">
+                                                                <input type="text" class="form-control" required placeholder="Prénom" name="prenom">
                                                             </div>
                                                             <div class="form-group">
                                                                 <label for="exampleInputPassword1">Adresse mail</label>
-                                                                <input type="email" class="form-control" placeholder="Mail" name="Email">
+                                                                <input type="email" class="form-control" required placeholder="Mail" name="Email">
                                                             </div>
                                                             <div class="form-group">
                                                                 <label for="exampleInputPassword1">Identifiant</label>
-                                                                <input type="text" class="form-control"  placeholder="Identifiant" name="identifiant">
+                                                                <input type="text" class="form-control" required  placeholder="Identifiant (5 caractères minimum)" name="identifiant">
                                                             </div>
                                                             <div class="form-group">
                                                                 <label for="exampleInputPassword1">Mot de passe </label>
-                                                                <input type="password" class="form-control" placeholder="mot de passe" name="mdp">
+                                                                <input type="password" class="form-control" required placeholder="mot de passe" name="mdp">
                                                             </div>
                                                             <div class="form-group">
                                                                 <label class="col-sm-2 control-label col-lg-2" for="inputSuccess">Crédits et titre du salarié </label>
@@ -290,13 +288,13 @@ if(isset($_SESSION['id_s']))
                                                                     </div>
                                                                     <div class="radio">
                                                                         <label>
-                                                                            <input type="radio" value="1" name="titre" checked>
+                                                                            <input type="radio" value="1" name="titre">
                                                                             Chef
                                                                         </label>
                                                                     </div>
                                                                     <div class="radio">
                                                                         <label>
-                                                                            <input type="radio"  value="0" name="titre">
+                                                                            <input type="radio" value="0" name="titre">
                                                                             Salarié
                                                                         </label>
                                                                     </div>
@@ -318,58 +316,104 @@ if(isset($_SESSION['id_s']))
                                             </div>
                                         </div>
                                         
-                                        <!--  FORMATION-->
+                                        <!--  FORMATION  ----------------------------------------------------------------------------------->
                                         <div id="contact-2" class="tab-pane ">
                                             <div class="col-lg-8">
                                                 <section class="panel">
                                                     <header class="panel-heading">
                                                         Formulaire ajout formations
                                                     </header>
-                                                    <form role="form" method="post" action="">
+                                                    <div class="panel-body">
+                                                     
+                                                    <form role="form" method="post" action="" enctype="multipart/form-data">
+<!--                                                    <form role="form" method="post" action="../../controllers/addformation.php" enctype="multipart/form-data">-->
+                                                      
+                                                       <div class="col-md-6">
                                                         <div class="form-group">
-                                                            <label for="exampleInputEmail1">Titre</label>
+                                                            <label >Titre</label>
                                                             <input type="text" required name="titre" class="form-control"  placeholder="Titre de la formation">
                                                         </div>
                                                         <div class="form-group">
-                                                            <label for="exampleInputPassword1">Cout</label>
-                                                            <input type="text" required name="cout" class="form-control"  placeholder="Cout de la formation">
+                                                            <label >Date de début</label>
+                                                            <input type="date" required name="date" class="form-control" style="width:30%;"  placeholder="">
                                                         </div>
+                                                         <?php
+                                                        if(isset($erreurcout))
+                                                        {
+                                                            echo '<font color="red">'.$erreurcout."</font>";
+                                                        }
+                                                        ?>
                                                         <div class="form-group">
-                                                            <label for="exampleInputPassword1">Date de début</label>
-                                                            <input type="date" required name="date" class="form-control" style="width:25%;"  placeholder="">
+                                                            <label >Cout</label>
+                                                            <input type="text" required name="cout" class="form-control" style="width:20%;" placeholder="N° Cout" >
                                                         </div>
+                                                         <?php
+                                                        if(isset($erreurplace))
+                                                        {
+                                                            echo '<font color="red">'.$erreurplace."</font>";
+                                                        }
+                                                        ?>
                                                         <div class="form-group">
-                                                            <label for="exampleInputPassword1">Nombre de place</label>
-                                                            <input type="text" required name="place" class="form-control" placeholder="">
+                                                            <label >Nombre de places</label>
+                                                            <input type="text" required name="place" class="form-control" style="width:20%;" placeholder="N° Place">
                                                         </div>
+                                                          
                                                         <div class="form-group">
-                                                            <label for="exampleInputPassword1">Contenu</label>
-                                                            <textarea type="text" required name="contenu" class="form-control" placeholder="Description de la formation"></textarea>
+                                                            <label >Icone</label>
+                                                            <?php
+                                                        if(isset($erreurimg))
+                                                        {
+                                                            echo '<font color="red">'.$erreurimg."</font>";
+                                                        }
+                                                        ?>
+                                                            <input type="file" name="avatar" id="icone" class="form-control"  placeholder="">
                                                         </div>
+                                                       
+                                                        <div class="form-group">
+                                                            <label >Contenu</label>
+                                                            <textarea type="text" required name="contenu" class="form-control" style="width:100%;" placeholder="Description de la formation"></textarea>
+                                                        </div>
+                                                        <input type="submit" name="addform" class="btn btn-info" value="Envoyer"><br><br>
+                                                        </div>
+                                                        <div class="col-md-6">
                                                          <div class="form-group">
-                                                            <label for="exampleInputPassword1">Ville</label>
+                                                            <label >Ville</label>
                                                             <input type="text" required name="ville" class="form-control" placeholder="Ville">
                                                         </div>
                                                          <div class="form-group">
-                                                            <label for="exampleInputPassword1">Rue</label>
+                                                            <label >Rue</label>
                                                             <input type="text" required name="rue" class="form-control" placeholder="Nom de la rue">
                                                         </div>
-                                                         <div class="form-group">
-                                                            <label for="exampleInputPassword1">Numéro de rue</label>
-                                                            <input type="text" required name="numrue" class="form-control" placeholder="Numéro de la rue">
-                                                        </div>
-                                                         <div class="form-group">
-                                                            <label for="exampleInputPassword1">Code postal</label>
-                                                            <input type="text" required name="cp" class="form-control" placeholder="Code postal">
-                                                        </div>
-
-                                                        <input type="submit" name="addform" class="btn btn-info" value="Envoyer"><br><br>
                                                         <?php
-                                                        if(isset($erreur))
+                                                        if(isset($erreurnum))
                                                         {
-                                                            echo '<font color="red">'.$erreur."</font>";
+                                                            echo '<font color="red">'.$erreurnum."</font>";
                                                         }
                                                         ?>
+                                                         <div class="form-group">
+                                                            <label >Numéro de rue</label>
+                                                            <input type="text" required name="numrue" class="form-control" style="width:20%;" placeholder="N° Rue">
+                                                        </div>
+                                                        <?php
+                                                        if(isset($erreurcp))
+                                                        {
+                                                            echo '<font color="red">'.$erreurcp."</font>";
+                                                        }
+                                                        ?>
+                                                         <div class="form-group">
+                                                            <label >Code postal</label>
+                                                            <input type="text" required name="cp" class="form-control" placeholder="Code postal">
+                                                        </div>
+                                                         <div class="form-group">
+                                                            <label >Prestataire</label>
+                                                            <input type="text" required name="presta" class="form-control" placeholder="Raison sociale">
+                                                        </div>
+                                                        
+                                                        </div>
+
+                                                        
+                                                       
+                                                        </div>
                                                     </form>
                                                 </section>
                                             </div>

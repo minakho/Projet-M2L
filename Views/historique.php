@@ -7,7 +7,7 @@ $etat = $bdd->prepare($sql);
 $etat->bindValue(":id_s",$_SESSION['id_s']);
 $etat->execute();
 
-$sql1 = "SELECT `titre`,`cout`,`date_debut`,`nb_place`,`contenu`,`Etat` FROM `etat_formation`e,`formation`f WHERE e.id_f = f.id_f AND `Etat`= 'Validée' AND `id_s`= :id_s";
+$sql1 = "SELECT f.`id_f`,`titre`,`cout`,`date_debut`,`nb_place`,`contenu`,`Etat` FROM `etat_formation`e,`formation`f WHERE e.id_f = f.id_f AND `Etat`= 'Validée' AND `id_s`= :id_s";
 $etat1 = $bdd->prepare($sql1);
 $etat1->bindValue(":id_s",$_SESSION['id_s']);
 $etat1->execute();
@@ -96,6 +96,7 @@ if(isset($_GET['id_s']) AND $_GET['id_s'] > 0)
                                                                 <th>date début</th>
                                                                 <th>nombre de place</th>
                                                                 <th>Contenu</th>
+                                                                
 
                                                             </tr>
                                                             
@@ -110,6 +111,7 @@ if(isset($_GET['id_s']) AND $_GET['id_s'] > 0)
                                                                 <td><?php echo $row['date_debut']; ?></td>
                                                                 <td><?php echo $row['nb_place']; ?></td>
                                                                 <td><?php echo $row['contenu']; ?></td>
+                                                                
                                                                
                                 
                                                             </tr>
@@ -139,6 +141,7 @@ if(isset($_GET['id_s']) AND $_GET['id_s'] > 0)
                                                                 <th>date début</th>
                                                                 <th>nombre de place</th>
                                                                 <th>Contenu</th>
+                                                                <th>Action</th>
 
                                                             </tr>
                                                             <?php while ($row1 = $etat1->fetch())
@@ -150,6 +153,7 @@ if(isset($_GET['id_s']) AND $_GET['id_s'] > 0)
                                                                 <td><?php echo $row1['date_debut']; ?></td>
                                                                 <td><?php echo $row1['nb_place']; ?></td>
                                                                 <td><?php echo $row1['contenu']; ?></td>
+                                                                <td><a href="../controllers/form.php?id_f=<?php echo $row1['id_f'];?>" target="_blank"><button type="submit" class="bouton" name="abonner">Imprimer</button></a></td>
                                                                
                                 
                                                             </tr>

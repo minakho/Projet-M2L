@@ -1,5 +1,5 @@
 <?php
-$bdd = new PDO('mysql:host=localhost;dbname=m2l;charset=utf8', 'root', '');
+$bdd = new PDO('mysql:host=mysql-smichael.alwaysdata.net;dbname=smichael_sinakhobdd;charset=utf8', 'smichael', 'Mimimic95');
 if(isset($_POST['adduser']))
 {
     //htmlspecialchars pour empecher les injections de code
@@ -27,7 +27,7 @@ if(isset($_POST['adduser']))
 
 
 
-                if(preg_match("#^[a-z0-9._-]+@[a-z0-9._-]{2,}\.[a-z]{2,}$#", $_POST['Email']))
+                if(filter_var($_POST['Email'], FILTER_VALIDATE_EMAIL))
                 {
 
 
@@ -61,15 +61,15 @@ if(isset($_POST['adduser']))
 
                 }
                 else{
-                    $erreur2 = "mauvais mail";
+                    $erreur2 = "Mail non valide";
                 }
             }
             else{
-                $erreur2 ="mauvais prenom";
+                $erreur2 ="Prénom non valide";
             }
         }
         else{
-            $erreur2 ="mauvais nom";
+            $erreur2 ="Nom non valide";
         }
     }
     else
